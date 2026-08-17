@@ -22,3 +22,12 @@ iverilog -o pc_sim -s pc_tb `
     .\rtl\pc16.v
 
 vvp .\pc_sim
+
+# cpu
+iverilog -o cpu_sim -s cpu_tb `
+    .\tb\cpu_tb.v `
+    .\rtl\*.v `
+    .\rtl\alu\*.v `
+    .\rtl\reg\*.v 
+
+vvp .\cpu_sim

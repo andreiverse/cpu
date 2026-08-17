@@ -21,7 +21,7 @@ module regfile16x16 (
             reg16 r (
                 .clk(clk),
                 .rst(rst),
-                .write_enable(write_enable && write_addr == i),
+                .write_enable(write_enable && write_addr == i[3:0]),
                 .write_data(write_data),
                 .read_data(reg_data[i])
             );
