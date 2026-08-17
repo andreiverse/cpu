@@ -24,11 +24,12 @@
 ## alu
 
 ```
-sel     operation
-──────────────────
-0001    ADD
-0010    XOR
-0011    XNOR
+sel     operation   arguments
+──────────────────-----------
+0001    ADD         [rd], [rs]
+0010    XOR         [rd], [rs]
+0011    XNOR        [rd], [rs]
+0100    INC         [rd]
 
 flags[0] = carry
 flags[1] = unused
