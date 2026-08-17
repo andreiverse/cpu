@@ -12,6 +12,16 @@ module alu16 (
     wire        sum_c;
     wire [15:0] xor_r;
     wire [15:0] xnor_r;
+    wire [15:0] inc_r;
+    wire        inc_c;
+
+    ripple_adder16 alu_incrementer (
+        .a(a),
+        .b(16'b1),
+        .c_in(1'b0),
+        .c_out(inc_c),
+        .sum(inc_r)
+    );
 
     ripple_adder16 alu_ripple_adder (
         .a(a),
@@ -46,6 +56,10 @@ module alu16 (
         end
         else if (sel == 4'b0011) begin
             result = xnor_r;
+        end
+        else if (sel == 4'b0100) begin // inc
+            result = inc_r;
+            flags[0] = inc_c;
         end
     end
 endmodule

@@ -68,18 +68,4 @@ module regfile_tb;
         $finish;
     end
 
-    initial begin
-        $monitor(
-            "time=%0t write_addr=%d write_data=%d we=%b (read_addr_a=%d => read_data_a=%d) (read_addr_b=%d => read_data_a=%d)",
-            $time,
-            write_addr,
-            write_data,
-            write_enable,
-            read_addr_a,
-            read_data_a,
-            read_addr_b,
-            read_data_b
-        );
-    end
-
 endmodule

@@ -29,17 +29,18 @@ module cpu_tb;
         $finish;
     end
 
-    // Print signals every time they change
+    
     initial begin
-        $dumpfile("cpu.vcd");
-        $dumpvars(0, cpu_tb);
-        
-        $monitor("t=%0t rst=%b PC=%h INSTR=%h OPCODE=%d",
-                 $time,
-                 rst,
-                 uut.pc_addr,
-                 uut.instr,
-                 uut.opcode);
+        $monitor(
+            "t=%0t PC=%h INSTR=%h | R0=%h R1=%h R2=%h R3=%h",
+            $time,
+            uut.pc_addr,
+            uut.instr,
+            uut.regfile.reg_data[0],
+            uut.regfile.reg_data[1],
+            uut.regfile.reg_data[2],
+            uut.regfile.reg_data[3]
+        );
     end
 
 endmodule

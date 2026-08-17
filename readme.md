@@ -35,3 +35,19 @@ flags[1] = unused
 flags[2] = unused
 flags[3] = unused
 ```
+
+## example program
+
+```
+        local_data[0] = 16'b0100000000000000; // inc r0;     r0++
+        local_data[1] = 16'b0100000000010000; // inc r1;     r1++
+        local_data[2] = 16'b0001000000010000; // add r1, r0; r1 += r0
+```
+
+output:
+
+```
+t=5000 PC=0000 INSTR=4000 | R0=0000 R1=0000 R2=0000 R3=0000
+t=25000 PC=0001 INSTR=4010 | R0=0001 R1=0000 R2=0000 R3=0000
+t=35000 PC=0002 INSTR=1010 | R0=0001 R1=0001 R2=0000 R3=0000
+```
