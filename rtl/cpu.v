@@ -32,22 +32,33 @@ module cpu(
         .jmp_addr(jmp_addr)
     );
 
+    wire alu_flags_we;
+    wire [15:0] alu_flags_write;
+    wire [15:0] alu_flags_read;
+
+    reg16 alu_flags_reg(
+        .clk(clk),
+        .rst(rst),
+        .write_enable(alu_flags_we),
+        .write_data(alu_flags_write),
+        .read_data(alu_flags_read)
+    );
+
     wire [3:0] alu_sel;
     wire write_enable;
 
     wire [15:0] a;
     wire [15:0] b;
     wire [15:0] write_data;
-    wire [3:0] alu_flags;
 
     control_unit ctrl(
         .opcode(opcode),
         .alu_sel(alu_sel),
+        .flags(alu_flags_read),
         .write_enable(write_enable),
         .jmp_enable(jmp_enable)
     );
 
-    // todo: make it so we can read and write at the same time
     regfile16x16 regfile(
         .clk(clk),
         .rst(rst),
@@ -69,7 +80,8 @@ module cpu(
         .c_in(1'b0),
         .sel(alu_sel),
         .result(write_data),
-        .flags(alu_flags)
+        .flags(alu_flags_write),
+        .flags_we(alu_flags_we)
     );
 
 endmodule

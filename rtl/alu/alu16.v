@@ -5,7 +5,8 @@ module alu16 (
     input wire [3:0]  sel,
 
     output reg [15:0] result,
-    output reg [3:0]  flags
+    output reg [15:0]  flags,
+    output reg flags_we
 );
 
     wire [15:0] sum_r;
@@ -45,21 +46,30 @@ module alu16 (
 
     always @(*) begin
         result = 16'b0;
-        flags = 4'b0;
-
+        flags = 16'b0;
+        flags_we = 0;
         if (sel == 4'b0001) begin
             result = sum_r;
-            flags[0] = sum_c;
+            flags[0] = 1;
+            flags_we = 1;
         end
         else if (sel == 4'b0010) begin
             result = xor_r;
+            flags_we = 1;
         end
         else if (sel == 4'b0011) begin
             result = xnor_r;
+            flags_we = 1;
         end
         else if (sel == 4'b0100) begin // inc
             result = inc_r;
             flags[0] = inc_c;
+            flags_we = 1;
+        end
+        else if (sel == 4'b0101) begin // cmp
+            if (a == b) flags[1] = 1; // Zflag
+            if (a < b) flags[2] = 1; // Nflag !Pflag
+            flags_we = 1;
         end
     end
 endmodule

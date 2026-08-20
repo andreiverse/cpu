@@ -5,7 +5,8 @@ module alu_tb;
     reg [3:0] sel;
 
     wire [15:0] result;
-    wire [3:0] flags;
+    wire [15:0] flags;
+    wire flags_we;
 
     alu16 dut (
         .a(a),
@@ -13,7 +14,8 @@ module alu_tb;
         .c_in(c_in),
         .sel(sel),
         .result(result),
-        .flags(flags)
+        .flags(flags),
+        .flags_we(flags_we)
     );
 
     initial begin

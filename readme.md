@@ -29,7 +29,9 @@
 0010 0000 [ 4 bit rd ][ 4 bit rs ] - xor 2 registers
 0011 0000 [ 4 bit rd ][ 4 bit rs ] - xnor 2 registers
 0100 0000 [ 4 bit rd ]        0000 - increment a register
+0101 0000 [ 4 bit rd ][ 4 bit rs ] - cmp 2 registers
 1100 0000 [     8 bit address    ] - jmp to an address
+1101 0000 [     8 bit address    ] - jmp to an address if Z flag is set
 ```
 
 ## example program

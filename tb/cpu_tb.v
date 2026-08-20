@@ -32,14 +32,17 @@ module cpu_tb;
     
     initial begin
         $monitor(
-            "t=%0t PC=%h INSTR=%h | R0=%h R1=%h R2=%h R3=%h",
+            "t=%0t PC=%h INSTR=%h (%b) | R0=%h R1=%h R2=%h R3=%h (Flags: %b) (we: %b)",
             $time,
             uut.pc_addr,
             uut.instr,
+            uut.opcode,
             uut.regfile.reg_data[0],
             uut.regfile.reg_data[1],
             uut.regfile.reg_data[2],
-            uut.regfile.reg_data[3]
+            uut.regfile.reg_data[3],
+            uut.alu_flags_read,
+            uut.write_enable,
         );
     end
 
