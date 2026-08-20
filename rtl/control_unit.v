@@ -7,5 +7,5 @@ module control_unit (
 );
     assign jmp_enable = (opcode == 4'b1100);
     assign alu_sel = opcode;
-    assign write_enable = 1'b1;
+    assign write_enable = opcode == 4'b1100 ? 1'b0 : 1'b1;
 endmodule
