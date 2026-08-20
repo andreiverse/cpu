@@ -4,11 +4,15 @@ module cpu(
 );
     wire [15:0] pc_addr;
     wire [15:0] instr;
+    wire [15:0] jmp_addr;
+    wire jmp_enable;
 
     pc16 pc(
         .clk(clk),
         .rst(rst),
-        .addr(pc_addr)
+        .addr(pc_addr),
+        .jmp_enable(jmp_enable),
+        .jmp_addr(jmp_addr)
     );
 
     rom instruction_memory(
@@ -24,7 +28,8 @@ module cpu(
         .instr(instr),
         .opcode(opcode),
         .rd(rd),
-        .rs(rs)
+        .rs(rs),
+        .jmp_addr(jmp_addr)
     );
 
     wire [3:0] alu_sel;
@@ -38,7 +43,8 @@ module cpu(
     control_unit ctrl(
         .opcode(opcode),
         .alu_sel(alu_sel),
-        .write_enable(write_enable)
+        .write_enable(write_enable),
+        .jmp_enable(jmp_enable)
     );
 
     // todo: make it so we can read and write at the same time
