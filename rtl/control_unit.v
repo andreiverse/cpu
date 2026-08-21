@@ -21,13 +21,16 @@ module control_unit (
         case (instr[15:12])
             // ALU instruction group
             4'b0001: begin
+                // if its not cmp, we select whatever operation
+                // and designate the alu as the data writer
                 if (instr[11:8] != 4'b1111) begin
                     alu_sel      = instr[11:8];
-                    data_writer = 16'd2;
+                    data_writer  = 16'd2;
                 end
-                else begin // overwrite cmp with sub, but dw=0;
+                // if its cmp, we substitute it with sub
+                // but not enable data writing
+                else begin
                     alu_sel      = 4'b0010; 
-                    // write_enable = 1'b0;
                 end
                 rd           = instr[7:4];
                 rs           = instr[3:0];
@@ -46,7 +49,7 @@ module control_unit (
                     (instr[11:8] == 4'b1000 && flags[3] == 1'b0);       // jnv
                 jmp_addr[7:0] = instr[7:0];
             end
-            // MOV instruction
+            // MOVI instruction
             4'b0011: begin
                 data_writer     = 16'd1;
                 rd              = instr[11:8];
