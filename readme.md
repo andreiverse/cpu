@@ -26,24 +26,24 @@ python assembler.py fibb.asm
     OPCD
     0000 0000         0000        0000 - NOP
   OPERATIONS
-    0001         0000 [ 4 bit rd ][ 4 bit rs ] - NOP
-    0001         0001 [ 4 bit rd ][ 4 bit rs ] - sum 2 registers (sets C flag)
-    0001         0010 [ 4 bit rd ][ 4 bit rs ] - sub 2 registers (sets Z, N, C, V flags)
-    0001         0011 [ 4 bit rd ][ 4 bit rs ] - xor 2 registers
-    0001         0100 [ 4 bit rd ][ 4 bit rs ] - xnor 2 registers
-    0001         0101 [ 4 bit rd ][ 4 bit rs ] - rd = rs, used for moving
-    0001         1000 [ 4 bit rd ]        0000 - inc register (sets C flag)
-    0001         1111 [ 4 bit rd ][ 4 bit rs ] - cmp 2 registers, same as sub but doesnt write to rd
+    0001         0000 [ 4 bit rd ] [ 4 bit rs ] - NOP
+    0001         0001 [ 4 bit rd ] [ 4 bit rs ] - sum 2 registers (sets C flag)
+    0001         0010 [ 4 bit rd ] [ 4 bit rs ] - sub 2 registers (sets Z, N, C, V flags)
+    0001         0011 [ 4 bit rd ] [ 4 bit rs ] - xor 2 registers
+    0001         0100 [ 4 bit rd ] [ 4 bit rs ] - xnor 2 registers
+    0001         0101 [ 4 bit rd ] [ 4 bit rs ] - rd = rs, used for moving
+    0001         1000 [ 4 bit rd ]         0000 - inc register (sets C flag)
+    0001         1111 [ 4 bit rd ] [ 4 bit rs ] - cmp 2 registers, same as sub but doesnt write to rd
   JUMPS
-    0010         0000 [     8 bit address    ] - jmp to an address 
-    0010         0001 [     8 bit address    ] - jz to an address 
-    0010         0010 [     8 bit address    ] - jn to an address 
-    0010         0011 [     8 bit address    ] - jc to an address 
-    0010         0100 [     8 bit address    ] - jv to an address 
-    0010         0101 [     8 bit address    ] - jnz to an address 
-    0010         0110 [     8 bit address    ] - jnn to an address 
-    0010         0111 [     8 bit address    ] - jnc to an address 
-    0010         1000 [     8 bit address    ] - jnv to an address 
+    0010         0000 [       8 bit addr       ] - jmp to an address 
+    0010         0001 [       8 bit addr       ] - jz to an address 
+    0010         0010 [       8 bit addr       ] - jn to an address 
+    0010         0011 [       8 bit addr       ] - jc to an address 
+    0010         0100 [       8 bit addr       ] - jv to an address 
+    0010         0101 [       8 bit addr       ] - jnz to an address 
+    0010         0110 [       8 bit addr       ] - jnn to an address 
+    0010         0111 [       8 bit addr       ] - jnc to an address 
+    0010         1000 [       8 bit addr       ] - jnv to an address 
   MOVS
     0011 [ 4 bit rd ] [    8 bit imm value   ] - mov to a register
 ```

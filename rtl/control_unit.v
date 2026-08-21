@@ -32,8 +32,8 @@ module control_unit (
                 else begin
                     alu_sel      = 4'b0010; 
                 end
-                rd           = instr[7:4];
-                rs           = instr[3:0];
+                rd = instr[7:4];
+                rs = instr[3:0];
             end
             // JMP instruction group
             4'b0010: begin
