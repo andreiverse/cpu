@@ -10,6 +10,16 @@
     - 4-bit destination register
     - 4-bit source register
 
+### running programs
+
+- fibb.asm calculates fibb numbers indefinetely
+- counting.asm counts to 10
+
+```
+python assembler.py fibb.asm
+.\run.ps1
+```
+
 ### instructions
 
 ```

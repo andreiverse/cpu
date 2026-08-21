@@ -71,7 +71,7 @@ module cpu(
 
         .write_addr(rd),
         .write_enable(data_writer == 16'b0 ? 1'b0 : 1'b1),
-        
+
         .write_data(data_writer == 16'd2 ? alu_write_data : ctrl_write_data),
         
         .read_data_a(a),

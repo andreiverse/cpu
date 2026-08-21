@@ -7,6 +7,6 @@ module rom(
     assign data = local_data[addr];
 
     initial begin
-        $readmemb("program.bin", local_data, 0, 65535);
+        $readmemh("program.hex", local_data, 0, 65535);
     end
 endmodule
