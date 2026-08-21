@@ -6,7 +6,6 @@ module alu_tb;
 
     wire [15:0] result;
     wire [15:0] flags;
-    wire flags_we;
 
     alu16 dut (
         .a(a),
@@ -14,8 +13,7 @@ module alu_tb;
         .c_in(c_in),
         .sel(sel),
         .result(result),
-        .flags(flags),
-        .flags_we(flags_we)
+        .flags(flags)
     );
 
     initial begin
@@ -31,18 +29,32 @@ module alu_tb;
         sel = 4'b0001;
         #10;
 
+        // sub logic test 
+        a = 16'd10;
+        b = 16'd5;
+        c_in = 0;
+        sel = 4'b0010;
+        #10;
+        
         // xor logic test 
         a = 16'd3;
         b = 16'd5;
         c_in = 0;
-        sel = 4'b0010;
+        sel = 4'b0011;
         #10;
         
         // xnor logic test 
         a = 16'd3;
         b = 16'd5;
         c_in = 0;
-        sel = 4'b0011;
+        sel = 4'b0100;
+        #10;
+ 
+        // inc logic test 
+        a = 16'd3;
+        b = 16'd5;
+        c_in = 0;
+        sel = 4'b1000;
         #10;
 
         $finish;

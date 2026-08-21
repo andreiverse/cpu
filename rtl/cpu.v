@@ -20,21 +20,14 @@ module cpu(
         .data(instr)
     );
 
-    wire [3:0] opcode;
-    wire [3:0] rd;
-    wire [3:0] rs;
-
-    decoder dec(
-        .instr(instr),
-        .opcode(opcode),
-        .rd(rd),
-        .rs(rs),
-        .jmp_addr(jmp_addr)
-    );
-
     wire alu_flags_we;
     wire [15:0] alu_flags_write;
     wire [15:0] alu_flags_read;
+
+    // 0 Z = Zero
+    // 1 N = Negative
+    // 2 C = Carry / Borrow
+    // 3 V = Overflow
 
     reg16 alu_flags_reg(
         .clk(clk),
@@ -47,16 +40,22 @@ module cpu(
     wire [3:0] alu_sel;
     wire write_enable;
 
+    wire [3:0] rd;
+    wire [3:0] rs;
+
     wire [15:0] a;
     wire [15:0] b;
     wire [15:0] write_data;
 
     control_unit ctrl(
-        .opcode(opcode),
+        .instr(instr),
         .alu_sel(alu_sel),
         .flags(alu_flags_read),
         .write_enable(write_enable),
-        .jmp_enable(jmp_enable)
+        .jmp_enable(jmp_enable),
+        .jmp_addr(jmp_addr),
+        .rd(rd),
+        .rs(rs)
     );
 
     regfile16x16 regfile(
@@ -73,15 +72,16 @@ module cpu(
         .read_data_a(a),
         .read_data_b(b)
     );
+    
+    assign alu_flags_we = alu_sel != 4'b0;
 
     alu16 alu(
         .a(a),
         .b(b),
-        .c_in(1'b0),
+        .flags_in(alu_flags_read),
         .sel(alu_sel),
         .result(write_data),
-        .flags(alu_flags_write),
-        .flags_we(alu_flags_we)
+        .flags(alu_flags_write)
     );
 
 endmodule

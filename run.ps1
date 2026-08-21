@@ -1,10 +1,7 @@
 # ALU
 iverilog -o alu_sim -s alu_tb `
     .\tb\alu_tb.v `
-    .\rtl\alu\alu16.v `
-    .\rtl\alu\ripple_adder16.v `
-    .\rtl\alu\xor16.v `
-    .\rtl\alu\xnor16.v
+    .\rtl\alu\*.v `
 
 vvp .\alu_sim
 
