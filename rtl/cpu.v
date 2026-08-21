@@ -38,26 +38,31 @@ module cpu(
     );
 
     wire [3:0] alu_sel;
-    wire write_enable;
 
     wire [3:0] rd;
     wire [3:0] rs;
 
     wire [15:0] a;
     wire [15:0] b;
-    wire [15:0] write_data;
 
+    wire [15:0] ctrl_write_data;
+    
+    wire [15:0] data_writer; // 0 = nobody, 1 = ctrl_unit, 2 = alu
+    
     control_unit ctrl(
         .instr(instr),
         .alu_sel(alu_sel),
         .flags(alu_flags_read),
-        .write_enable(write_enable),
         .jmp_enable(jmp_enable),
         .jmp_addr(jmp_addr),
         .rd(rd),
-        .rs(rs)
+        .rs(rs),
+        .write_data(ctrl_write_data),
+        .data_writer(data_writer)
     );
 
+    wire [15:0] alu_write_data;
+    
     regfile16x16 regfile(
         .clk(clk),
         .rst(rst),
@@ -65,9 +70,9 @@ module cpu(
         .read_addr_b(rs),
 
         .write_addr(rd),
-        .write_enable(write_enable),
+        .write_enable(data_writer == 16'b0 ? 1'b0 : 1'b1),
         
-        .write_data(write_data),
+        .write_data(data_writer == 16'd2 ? alu_write_data : ctrl_write_data),
         
         .read_data_a(a),
         .read_data_b(b)
@@ -75,12 +80,13 @@ module cpu(
     
     assign alu_flags_we = alu_sel != 4'b0;
 
+
     alu16 alu(
         .a(a),
         .b(b),
         .flags_in(alu_flags_read),
         .sel(alu_sel),
-        .result(write_data),
+        .result(alu_write_data),
         .flags(alu_flags_write)
     );
 

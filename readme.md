@@ -35,5 +35,5 @@
     0010         0111 [     8 bit address    ] - jnc to an address 
     0010         1000 [     8 bit address    ] - jnv to an address 
   MOVS
-#   0011 [ 4 bit rd ] [    8 bit imm value   ] - movl to a register
+    0011 [ 4 bit rd ] [    8 bit imm value   ] - mov to a register
 ```

@@ -24,7 +24,7 @@ module cpu_tb;
         rst = 0;
 
         // Run for 200 ns
-        #5000;
+        #200;
 
         $finish;
     end
@@ -32,7 +32,7 @@ module cpu_tb;
     
     initial begin
         $monitor(
-            "t=%0t PC=%h INSTR=%h | R0=%h R1=%h R2=%h R3=%h (Flags: %b) (we: %b) (alu: %b) (je: %b)",
+            "t=%0t PC=%h INSTR=%h | R0=%h R1=%h R2=%h R3=%h (Flags: %b) (DW: %d) (alu: %b) (je: %b)",
             $time,
             uut.pc_addr,
             uut.instr,
@@ -41,7 +41,7 @@ module cpu_tb;
             uut.regfile.reg_data[2],
             uut.regfile.reg_data[3],
             uut.alu_flags_read,
-            uut.write_enable,
+            uut.data_writer,
             uut.alu_sel,
             uut.jmp_enable
         );
