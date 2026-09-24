@@ -24,7 +24,7 @@ python assembler.py fibb.asm
 
 ```
     OPCD
-    0000 0000         0000        0000 - NOP
+    0000         0000        0000         0000  - NOP
   OPERATIONS
     0001         0000 [ 4 bit rd ] [ 4 bit rs ] - NOP
     0001         0001 [ 4 bit rd ] [ 4 bit rs ] - sum 2 registers (sets C flag)
@@ -32,7 +32,7 @@ python assembler.py fibb.asm
     0001         0011 [ 4 bit rd ] [ 4 bit rs ] - xor 2 registers
     0001         0100 [ 4 bit rd ] [ 4 bit rs ] - xnor 2 registers
     0001         0101 [ 4 bit rd ] [ 4 bit rs ] - rd = rs, used for moving
-    0001         1000 [ 4 bit rd ]         0000 - inc register (sets C flag)
+    0001         1000 [ 4 bit rd ]        0000  - inc register (sets C flag)
     0001         1111 [ 4 bit rd ] [ 4 bit rs ] - cmp 2 registers, same as sub but doesnt write to rd
   JUMPS
     0010         0000 [       8 bit addr       ] - jmp to an address 
@@ -46,4 +46,5 @@ python assembler.py fibb.asm
     0010         1000 [       8 bit addr       ] - jnv to an address 
   MOVS
     0011 [ 4 bit rd ] [    8 bit imm value   ] - mov to a register
+    0100         0000 [    8 bit addr        ] [ 16 bit immediate ] - move 16 bit immediate to a address in RAM
 ```

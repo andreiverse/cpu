@@ -2,8 +2,9 @@ module pc16(
     input wire clk,
     input wire rst,
     input wire jmp_enable,
+    input wire word_instr,
     input wire [15:0] jmp_addr,
-    output wire [15:0] addr 
+    output wire [15:0] addr
 );
 
     reg [15:0] data;
@@ -14,7 +15,7 @@ module pc16(
         else if (jmp_enable)
             data <= jmp_addr;
         else
-            data <= data + 1'b1;
+            data <= data + 1'b1 + word_instr;
     end
 
     assign addr = data;

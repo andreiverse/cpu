@@ -20,7 +20,6 @@ def parse_register_name(r_name):
 
     return number
 
-
 def parse_immediate(imm):
     value = int(imm, 0)
 
@@ -30,6 +29,14 @@ def parse_immediate(imm):
 
     return value
 
+def parse_immediate16(imm):
+    value = int(imm, 0)
+
+    if value < 0 or value > 65535:
+        print(f"immediate16 out of range: {imm}")
+        exit(1)
+
+    return value
 
 def parse_address(addr):
     value = int(addr, 0)
@@ -39,7 +46,6 @@ def parse_address(addr):
         exit(1)
 
     return value
-
 
 def parse_lines(lines):
     result = []
@@ -51,7 +57,6 @@ def parse_lines(lines):
             result.append(line)
 
     return result
-
 
 def assemble(lines):
     binary = []
@@ -142,20 +147,45 @@ def assemble(lines):
                 + format(rd, "04b")
                 + format(imm, "08b")
             )
+        elif op == "MOVMEM":
+            args = parse_arguments(arguments, 2, op)
 
+            dstaddr = parse_address(args[0])
+            imm16 = parse_immediate16(args[1])
+
+            binary.append(
+                "01000000" 
+                + format(dstaddr, "08b")
+                + format(imm16, "016b")
+            )
+            print(binary)
+    
         else:
             print(f"unknown instruction: {op}")
             exit(1)
 
     return binary
 
-
 def write_hex(binary, filename):
     with open(filename, "w") as f:
         for instruction in binary:
-            value = int(instruction, 2)
-            f.write(f"{value:04X}\n")
+            if len(instruction) == 16:
+                value = int(instruction, 2)
+                f.write(f"{value:04X}\n")
 
+            elif len(instruction) == 32:
+                value = int(instruction, 2)
+
+                high = (value >> 16) & 0xFFFF
+                low = value & 0xFFFF
+
+                f.write(f"{high:04X}\n")
+                f.write(f"{low:04X}\n")
+
+            else:
+                raise ValueError(
+                    f"Invalid instruction length: {len(instruction)} bits"
+                )
 
 with open(sys.argv[1]) as f:
     lines = parse_lines(f.readlines())

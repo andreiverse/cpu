@@ -1,13 +1,19 @@
 module control_unit (
     input wire [15:0] instr,
+    input wire [15:0] instr_next,
     input wire [15:0] flags,
+    output reg word_instr,
     output reg [3:0] alu_sel,
     output reg [3:0] rd,
     output reg [3:0] rs,
     output reg jmp_enable,
     output reg [15:0] jmp_addr,
     output reg [15:0] write_data,
-    output reg [15:0] data_writer
+    output reg [15:0] data_writer,
+
+    output reg [15:0] memory_write_data,
+    output reg [7:0] memory_write_addr,
+    output reg memory_write_enable
 );
     always @(*) begin
         alu_sel      = 4'b0000;
@@ -17,6 +23,11 @@ module control_unit (
         jmp_addr     = 16'b0000_0000_0000_0000;
         write_data   = 16'b0000_0000_0000_0000;
         data_writer  = 16'b0000_0000_0000_0000;
+        word_instr   = 1'b0;
+
+        memory_write_addr = 8'b0000_0000;
+        memory_write_data = 16'b0000_0000_0000_0000;
+        memory_write_enable = 1'b0;
 
         case (instr[15:12])
             // ALU instruction group
@@ -54,6 +65,13 @@ module control_unit (
                 data_writer     = 16'd1;
                 rd              = instr[11:8];
                 write_data[7:0] = instr[7:0];
+            end
+            // MOVMEM instruction
+            4'b0100: begin
+                word_instr = 1'b1;
+                memory_write_addr = instr[7:0];
+                memory_write_data = instr_next;
+                memory_write_enable = 1'b1;
             end
         endcase
     end

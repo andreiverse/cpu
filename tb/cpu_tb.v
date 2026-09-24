@@ -32,7 +32,7 @@ module cpu_tb;
     
     initial begin
         $monitor(
-            "t=%0t PC=%h INSTR=%h | R0=%h R1=%h R2=%h R3=%h (Flags: %b) (DW: %d) (alu: %b) (je: %b)",
+            "t=%0t PC=%h INSTR=%b | R0=%h R1=%h R2=%h R3=%h (Flags: %b) (DW: %d) (alu: %b) (je: %b) (32bit_instr: %b)",
             $time,
             uut.pc_addr,
             uut.instr,
@@ -43,7 +43,8 @@ module cpu_tb;
             uut.alu_flags_read,
             uut.data_writer,
             uut.alu_sel,
-            uut.jmp_enable
+            uut.jmp_enable,
+            uut.word_instr,
         );
     end
 

@@ -4,23 +4,42 @@ module cpu(
 );
     wire [15:0] pc_addr;
     wire [15:0] instr;
+    wire [15:0] instr_next;
     wire [15:0] jmp_addr;
+    wire word_instr;
     wire jmp_enable;
+
+    wire [15:0] memory_write_data; 
+    wire [7:0] memory_write_addr;
+    wire memory_write_enable;
+    wire [7:0] memory_read_addr;
+    wire [15:0] memory_read_data; 
+
+    memory16 memory(
+        .clk(clk),
+        .rst(rst),
+        .read_addr(memory_read_addr),
+        .write_addr(memory_write_addr),
+        .write_enable(memory_write_enable),
+        .write_data(memory_write_data),
+        .read_data(memory_read_data)
+    );
 
     pc16 pc(
         .clk(clk),
         .rst(rst),
         .addr(pc_addr),
         .jmp_enable(jmp_enable),
-        .jmp_addr(jmp_addr)
+        .jmp_addr(jmp_addr),
+        .word_instr(word_instr)
     );
 
     rom instruction_memory(
         .addr(pc_addr),
-        .data(instr)
+        .data(instr),
+        .data_next(instr_next)
     );
 
-    wire alu_flags_we;
     wire [15:0] alu_flags_write;
     wire [15:0] alu_flags_read;
 
@@ -32,7 +51,7 @@ module cpu(
     reg16 alu_flags_reg(
         .clk(clk),
         .rst(rst),
-        .write_enable(alu_flags_we),
+        .write_enable(1'b1),
         .write_data(alu_flags_write),
         .read_data(alu_flags_read)
     );
@@ -51,6 +70,8 @@ module cpu(
     
     control_unit ctrl(
         .instr(instr),
+        .instr_next(instr_next),
+        .word_instr(word_instr),
         .alu_sel(alu_sel),
         .flags(alu_flags_read),
         .jmp_enable(jmp_enable),
@@ -58,7 +79,11 @@ module cpu(
         .rd(rd),
         .rs(rs),
         .write_data(ctrl_write_data),
-        .data_writer(data_writer)
+        .data_writer(data_writer),
+
+        .memory_write_data(memory_write_data),
+        .memory_write_addr(memory_write_addr),
+        .memory_write_enable(memory_write_enable)
     );
 
     wire [15:0] alu_write_data;
@@ -78,9 +103,6 @@ module cpu(
         .read_data_b(b)
     );
     
-    assign alu_flags_we = alu_sel != 4'b0;
-
-
     alu16 alu(
         .a(a),
         .b(b),

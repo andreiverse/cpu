@@ -25,6 +25,7 @@ iverilog -o cpu_sim -s cpu_tb `
     .\tb\cpu_tb.v `
     .\rtl\*.v `
     .\rtl\alu\*.v `
-    .\rtl\reg\*.v 
+    .\rtl\reg\*.v `
+    .\rtl\mem\*.v
 
 vvp .\cpu_sim

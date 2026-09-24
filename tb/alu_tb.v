@@ -10,7 +10,6 @@ module alu_tb;
     alu16 dut (
         .a(a),
         .b(b),
-        .c_in(c_in),
         .sel(sel),
         .result(result),
         .flags(flags)
