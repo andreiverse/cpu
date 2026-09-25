@@ -12,7 +12,9 @@ module control_unit (
     output reg [15:0] data_writer,
 
     output reg [15:0] memory_write_data,
+    input wire [15:0] memory_read_data,
     output reg [7:0] memory_write_addr,
+    output reg [7:0] memory_read_addr,
     output reg memory_write_enable
 );
     always @(*) begin
@@ -72,6 +74,13 @@ module control_unit (
                 memory_write_addr = instr[7:0];
                 memory_write_data = instr_next;
                 memory_write_enable = 1'b1;
+            end
+            // LOADMEM instruction
+            4'b0101: begin
+                memory_read_addr = instr[7:0];
+                write_data[15:0] = memory_read_data[15:0];
+                data_writer = 16'd1;
+                rd = instr[11:8];
             end
         endcase
     end

@@ -83,7 +83,10 @@ module cpu(
 
         .memory_write_data(memory_write_data),
         .memory_write_addr(memory_write_addr),
-        .memory_write_enable(memory_write_enable)
+        .memory_write_enable(memory_write_enable),
+
+        .memory_read_addr(memory_read_addr),
+        .memory_read_data(memory_read_data)
     );
 
     wire [15:0] alu_write_data;

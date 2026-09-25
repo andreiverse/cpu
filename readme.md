@@ -47,4 +47,5 @@ python assembler.py fibb.asm
   MOVS
     0011 [ 4 bit rd ] [    8 bit imm value   ] - mov to a register
     0100         0000 [    8 bit addr        ] [ 16 bit immediate ] - move 16 bit immediate to a address in RAM
+    0101 [ 4 bit rd ] [    8 bit addr        ] - move value from memory to a register
 ```

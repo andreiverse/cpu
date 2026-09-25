@@ -159,6 +159,17 @@ def assemble(lines):
                 + format(imm16, "016b")
             )
             print(binary)
+        elif op == "LOADMEM":
+            args = parse_arguments(arguments, 2, op)
+
+            rd = parse_register_name(args[0])
+            srcaddr = parse_address(args[1])
+
+            binary.append(
+                "0101" + format(rd, "04b") 
+                + format(srcaddr, "08b")
+            )
+            print(binary)
     
         else:
             print(f"unknown instruction: {op}")
